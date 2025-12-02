@@ -15,8 +15,8 @@ const courseSchema = new mongoose.Schema<CourseType>({
     },
     subjects: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Subject'
+            type: String,
+            required: true
         }
     ],
 }, { timestamps: true });
