@@ -1,10 +1,13 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials"
 import { connectToDatabase } from "./db";
-import { Student } from "@/models/students.model";
+import { Admin } from "@/models/admin.model";
 import bcrypt from "bcrypt";
+import { Teacher } from "@/models/teachers.model";
+import { Student } from "@/models/students.model";
+import { useSession } from "next-auth/react";
 
-export const studentAuthOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -17,9 +20,25 @@ export const studentAuthOptions: NextAuthOptions = {
                     throw new Error("All feilds are required!")
                 }
 
+                const session = useSession();
+                console.log("Session in auth.ts", session);
+                if (session.data) {
+                    alert("Already logged in")
+                    throw new Error("Already logged in")
+                }
+
                 try {
                     await connectToDatabase();
-                    const user = await Student.findOne({ email: credentials.email })
+
+                    const admin = await Admin.findOne({ email: credentials.email });
+                    if (!admin) {
+                        console.log("No admin found with this email");
+                    }
+
+                    const teacher = await Teacher.findOne({ email: credentials.email });
+                    const student = await Student.findOne({ email: credentials.email });
+
+                    const user = admin || teacher || student;
 
                     if (!user) {
                         throw new Error("no user found")

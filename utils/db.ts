@@ -20,6 +20,10 @@ export async function connectToDatabase() {
             autoIndex: true
         })
         .then(() => mongoose.connection)
+        .catch((error) => {
+            console.log("MongoDB connection error:", error);
+            throw error;
+        });
     }
 
     try {

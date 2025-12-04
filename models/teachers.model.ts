@@ -42,7 +42,7 @@ const teacherSchema = new mongoose.Schema<TeacherType>({
     password: {
         type: String,
         required: true
-    }
+    },
     
 }, { timestamps: true });
 

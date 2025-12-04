@@ -1,11 +1,10 @@
 import { Course } from "@/models/courses.model";
-import { adminAuthOptions } from "@/utils/admin.auth";
 import { connectToDatabase } from "@/utils/db";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-    const session = await getServerSession(adminAuthOptions);
+    const session = await getServerSession();
 
     if (!session) {
         return NextResponse.json(

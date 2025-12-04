@@ -48,7 +48,8 @@ const studentSchema = new mongoose.Schema<StudentType>({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Class'
         }
-    ]
+    ],
+  
 }, { timestamps: true });
 
 studentSchema.pre("save", async function () {
